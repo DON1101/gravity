@@ -39,22 +39,22 @@ export class Entity {
         this.accelerationNew.x = this.force.x / this.mass;
         this.accelerationNew.y = this.force.y / this.mass;
 
-        if (this.positionNew.x <= 0) {
-            this.positionNew.x = 0;
-            this.velocityNew.x = -this.velocity.x;
-        }
-        if (this.positionNew.x >= Constant.MAP_WIDTH_UNIT/Constant.UNIT_DISTANCE) {
-            this.positionNew.x = Constant.MAP_WIDTH_UNIT/Constant.UNIT_DISTANCE;
-            this.velocityNew.x = -this.velocity.x;
-        }
-        if (this.positionNew.y <= 0) {
-            this.positionNew.y = 0;
-            this.velocityNew.y = -this.velocity.y;
-        }
-        if (this.positionNew.y >= Constant.MAP_HEIGHT_UNIT/Constant.UNIT_DISTANCE) {
-            this.positionNew.y = Constant.MAP_HEIGHT_UNIT/Constant.UNIT_DISTANCE;
-            this.velocityNew.y = -this.velocity.y;
-        }
+        // if (this.positionNew.x <= 0) {
+        //     this.positionNew.x = 0;
+        //     this.velocityNew.x = -this.velocity.x;
+        // }
+        // if (this.positionNew.x >= Constant.MAP_WIDTH_UNIT/Constant.UNIT_DISTANCE) {
+        //     this.positionNew.x = Constant.MAP_WIDTH_UNIT/Constant.UNIT_DISTANCE;
+        //     this.velocityNew.x = -this.velocity.x;
+        // }
+        // if (this.positionNew.y <= 0) {
+        //     this.positionNew.y = 0;
+        //     this.velocityNew.y = -this.velocity.y;
+        // }
+        // if (this.positionNew.y >= Constant.MAP_HEIGHT_UNIT/Constant.UNIT_DISTANCE) {
+        //     this.positionNew.y = Constant.MAP_HEIGHT_UNIT/Constant.UNIT_DISTANCE;
+        //     this.velocityNew.y = -this.velocity.y;
+        // }
     }
 
     refresh() {

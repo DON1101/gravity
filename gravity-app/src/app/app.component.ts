@@ -38,9 +38,10 @@ export class AppComponent {
 
         this.entityList.push(this.init_sun());
         this.entityList.push(this.init_earth());
-        // this.entityList.push(this.init_jupiter());
-        // this.entityList.push(this.init_saturn());
-        // this.entityList.push(this.init_mars());
+        this.entityList.push(this.init_jupiter());
+        this.entityList.push(this.init_saturn());
+        this.entityList.push(this.init_mars());
+        this.init_asteroid_list();
 
         this.run();
         this.render();
@@ -73,6 +74,9 @@ export class AppComponent {
             for (var j = i + 1; j < this.entityList.length; j++) {
                 let entityB = this.entityList[j];
                 let distance2 = Math.pow(entityA.position.x - entityB.position.x, 2) + Math.pow(entityA.position.y - entityB.position.y, 2);
+                if (distance2 == 0) {
+                    continue;
+                }
                 let cos = (entityB.position.x - entityA.position.x) / Math.sqrt(distance2);
                 let sin = (entityB.position.y - entityA.position.y) / Math.sqrt(distance2);
                 let gravity = Constant.GRAVITY_CONST * entityA.mass * entityB.mass / distance2;
@@ -96,7 +100,7 @@ export class AppComponent {
         let position = new Vector(Constant.MAP_WIDTH_UNIT/2/Constant.UNIT_DISTANCE,
                                   Constant.MAP_HEIGHT_UNIT/2/Constant.UNIT_DISTANCE - Constant.DISTANCE_MARS);
         let velocity = new Vector(Constant.VELOCITY_MARS, 0);
-        this.mars = new Entity('orange', Constant.MASS_EARTH, position, velocity);
+        this.mars = new Entity('orange', Constant.MASS_MARS, position, velocity);
         return this.mars;
     }
 
@@ -116,6 +120,22 @@ export class AppComponent {
         return this.saturn;
     }
 
+    private init_asteroid_list() {
+        let position;
+        let velocity;
+        let asteroid;
+        let rad;
+        for (var i = 0; i < 1000; i++) {
+            rad = Math.random() * 2 * Math.PI;
+            position = new Vector(Constant.MAP_WIDTH_UNIT/2/Constant.UNIT_DISTANCE + Constant.DISTANCE_ASTEROID * Math.sin(rad),
+                                  Constant.MAP_WIDTH_UNIT/2/Constant.UNIT_DISTANCE - Constant.DISTANCE_ASTEROID * Math.cos(rad));
+            velocity = new Vector(Constant.VELOCITY_ASTEROID * Math.cos(rad),
+                                  Constant.VELOCITY_ASTEROID * Math.sin(rad));
+            asteroid = new Entity('black', Constant.MASS_ASTEROID, position, velocity);
+            this.entityList.push(asteroid);
+        }
+    }
+
     private init_sun() {
         let position = new Vector(Constant.MAP_WIDTH_UNIT/2/Constant.UNIT_DISTANCE,
                                   Constant.MAP_HEIGHT_UNIT/2/Constant.UNIT_DISTANCE);
@@ -124,7 +144,7 @@ export class AppComponent {
     }
 
     private drawMap = () => {
-        // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         for (var i = 0; i < this.entityList.length; i++) {
             let entity = this.entityList[i];
             let mapPosX = entity.position.x * Constant.UNIT_DISTANCE * Constant.UNIT_SIZE;
@@ -137,15 +157,15 @@ export class AppComponent {
                 Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT
             );
             // Draw force sum
-            // this.context.beginPath();
-            // this.context.strokeStyle = entity.color;
-            // this.context.moveTo(
-            //     mapPosX + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2, 
-            //     mapPosY + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2);
-            // this.context.lineTo(
-            //     mapPosX + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2 + entity.force.x * Constant.UNIT_FORCE,
-            //     mapPosY + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2 + entity.force.y * Constant.UNIT_FORCE);
-            // this.context.stroke();
+            this.context.beginPath();
+            this.context.strokeStyle = entity.color;
+            this.context.moveTo(
+                mapPosX + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2, 
+                mapPosY + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2);
+            this.context.lineTo(
+                mapPosX + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2 + entity.force.x * Constant.UNIT_FORCE,
+                mapPosY + Constant.UNIT_SIZE * Constant.ENTITY_RADIUS_UNIT/2 + entity.force.y * Constant.UNIT_FORCE);
+            this.context.stroke();
         }
     }
 
