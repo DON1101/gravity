@@ -15,7 +15,7 @@ import { Jupiter } from './model/jupiter';
 })
 export class AppComponent {
     constructor(@Inject(Window) private _window: Window) {}
-    @ViewChild("main_canvas") canvasRef: ElementRef;
+    @ViewChild("main_canvas", {static: true}) canvasRef: ElementRef;
 
     private sun: Entity;
     private earth: Entity;
@@ -26,7 +26,7 @@ export class AppComponent {
     private requestAnimFrame;
     private canvas = null;
     private context = null;
-    private timeElapsed = 0;
+    public timeElapsed = 0;
     private subscription = null;
 
     ngOnInit() {
@@ -172,7 +172,6 @@ export class AppComponent {
     private initRender = () => {
         this.requestAnimFrame = 
             this._window.requestAnimationFrame       ||
-            this._window.webkitRequestAnimationFrame ||
             function( callback ){
                 this._window.setTimeout(callback, 1000 / 60);
             };

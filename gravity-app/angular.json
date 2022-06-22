@@ -130,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "gravity-app"
+  "defaultProject": "gravity-app",
+  "cli": {
+    "analytics": false
+  }
 }
