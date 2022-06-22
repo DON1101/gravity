@@ -1,3 +1,4 @@
+@Directive()
 export class Constant {
     public static UNIT_SIZE = 3; // px
     public static UNIT_FRAME_RUN = 1; // ms
